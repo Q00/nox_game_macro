@@ -22,12 +22,13 @@ namespace WindowsFormsApplication3
         private static extern int FindWindowEx(int hWnd1, int hWnd2, string Ipsz1, string Ipsz2);
         [DllImport("user32.dll")]
         public static extern int SendMessage(int hwnd, int wMsg, int wParam, int Iparam);
-        [DllImport("user32.dll")]
-        public static extern bool printWindow(IntPtr hwnd, IntPtr hDc, uint nFlags);
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PrintWindow(IntPtr hwnd, IntPtr hDc, uint nFlags);
+        [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int  nRightRect, int nBottomRect);
         [DllImport("user32.dll")]
-        public static extern IntPtr getWindowRgn(IntPtr hwnd, IntPtr hRgn);
+        public static extern IntPtr GetWindowRgn(IntPtr hwnd, IntPtr hRgn);
 
 
         const int WM_LBUTTONDOWN = 0x0201;
@@ -47,9 +48,10 @@ namespace WindowsFormsApplication3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            IntPtr nhwnd = (IntPtr)FindWindow(null, "녹스 플레이어"); // 윈도우 창 제목
+             IntPtr nhwnd = (IntPtr)FindWindow(null, "녹스 플레이어"); // 윈도우 창 제목
 
             if (!nhwnd.Equals(IntPtr.Zero)){
+  
                 PrintWindow2(nhwnd);
             }
 
@@ -65,14 +67,13 @@ namespace WindowsFormsApplication3
             Rectangle rc = Rectangle.Empty;
             Graphics gfxWin = Graphics.FromHwnd(hwnd);
             rc = Rectangle.Round(gfxWin.VisibleClipBounds);
-
             Bitmap bmp = new Bitmap(
                 rc.Width, rc.Height,
-                System.Drawing.Imaging.PixelFormat.Format64bppArgb);
-
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            
             Graphics gfxBmp = Graphics.FromImage(bmp);
             IntPtr hdcBitmap = gfxBmp.GetHdc();
-            bool succeeded = printWindow(hwnd, hdcBitmap, 1);
+            bool succeeded = PrintWindow(hwnd, hdcBitmap, 1);
             gfxBmp.ReleaseHdc(hdcBitmap);
             if (!succeeded)
             {
@@ -82,7 +83,7 @@ namespace WindowsFormsApplication3
                     );
             }
             IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
-            getWindowRgn(hwnd, hRgn);
+            GetWindowRgn(hwnd, hRgn);
             Region region = Region.FromHrgn(hRgn);
 
             if (!region.IsEmpty(gfxBmp))
@@ -92,7 +93,7 @@ namespace WindowsFormsApplication3
             }
             gfxBmp.Dispose();
             Console.WriteLine((DateTime.Now - startTime).TotalMilliseconds);
-            bmp.Save(@"c:\\test.bmp",System.Drawing.Imaging.ImageFormat.Bmp);
+            bmp.Save(@"c:\\test2.bmp",System.Drawing.Imaging.ImageFormat.Bmp);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
