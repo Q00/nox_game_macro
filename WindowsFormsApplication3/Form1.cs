@@ -9,7 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-
+using OpenCvSharp;
+using System.Diagnostics;
 
 namespace WindowsFormsApplication3
 {
@@ -79,7 +80,7 @@ namespace WindowsFormsApplication3
             {
                 gfxBmp.FillRectangle(
                         new SolidBrush(Color.Gray),
-                        new Rectangle(Point.Empty, bmp.Size)
+                        new Rectangle(System.Drawing.Point.Empty, bmp.Size)
                     );
             }
             IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
