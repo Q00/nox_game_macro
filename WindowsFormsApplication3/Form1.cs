@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using OpenCvSharp;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace WindowsFormsApplication3
 {
@@ -32,7 +33,7 @@ namespace WindowsFormsApplication3
         const int BM_CLICK = 0x00F5;
 
         //프로그램 주소
-        static IntPtr nhwnd = IntPtr.Zero;
+        IntPtr nhwnd = IntPtr.Zero;
 
 
         enum countImage : int
@@ -47,25 +48,58 @@ namespace WindowsFormsApplication3
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
+        System.Drawing.Point p2 = System.Drawing.Point.Empty;
+
         public Form1()
         {
             InitializeComponent();
             MessageBox.Show("환영합니다.");
+            
         }
+
+        Bitmap[] winOrLose =
+            {
+                new Bitmap(@"img\victory.PNG"),
+                new Bitmap(@"img\전복.PNG")
+            };
+
+        Bitmap[] winImage =
+        {
+                new Bitmap(@"img\victory.PNG"),
+                new Bitmap(@"img\아이템_확인.PNG"),
+                new Bitmap(@"img\획득.PNG")
+            };
+
+        Bitmap loseImage = new Bitmap(@"img\전복아니오.PNG");
+        Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
+        //찾을 이미지 변수들
+        Bitmap findImage = new Bitmap(@"img\전투시작.PNG");
+
+
+        Bitmap[] thunderImage =
+        {
+                new Bitmap(@"img\번충안내.PNG"),
+                new Bitmap(@"img\번충예.PNG"),
+                new Bitmap(@"img\에너지충전.PNG"),
+                new Bitmap(@"img\번충예2.PNG"),
+                new Bitmap(@"img\번충확인.PNG"),
+                new Bitmap(@"img\번충닫기.PNG")
+            };
 
         private void button1_Click(object sender, EventArgs e)
         {
+            nhwnd = (IntPtr)FindWindow(null, "녹스 플레이어"); // 윈도우 창 제목
+
             try
             {
-                nhwnd = (IntPtr)FindWindow(null, "녹스 플레이어"); // 윈도우 창 제목
-
                 if (!nhwnd.Equals(IntPtr.Zero))
                 {
                     // 타이머 변수
                     timer = new System.Windows.Forms.Timer();
                     MoveWindow(nhwnd, 0, 0, 800, 600, true);
+                    timer1_Tick(sender, e);
                     // 윈폼 타이머 사용
-                    timer.Interval = 3000;//1000 * 30 + r.Next(0, 10); // 1분 + @
+                    timer.Interval = 1000*60;//1000 * 30 + r.Next(0, 10); // 1분 + @
                     timer.Tick += new EventHandler(timer1_Tick);
                     timer.Start();
                 }
@@ -88,28 +122,40 @@ namespace WindowsFormsApplication3
         {
             try
             {
-                //찾은 플레이어를 바탕으로 Graphics 정보를 가져옵니다.
-                Graphics Graphicsdata = Graphics.FromHwnd(nhwnd);
+                DateTime startTime = DateTime.Now;
+                Rectangle rc = Rectangle.Empty;
+                Graphics gfxWin = Graphics.FromHwnd(nhwnd);
+                rc = Rectangle.Round(gfxWin.VisibleClipBounds);
+                Bitmap bmp = new Bitmap(
+                    rc.Width, rc.Height
+                );
 
-                //찾은 플레이어 창 크기 및 위치를 가져옵니다. 
-                Rectangle rect = Rectangle.Round(Graphicsdata.VisibleClipBounds);
-
-                //플레이어 창 크기 만큼의 비트맵을 선언해줍니다.
-                Bitmap bmp = new Bitmap(rect.Width, rect.Height);
-
-                //비트맵을 바탕으로 그래픽스 함수로 선언해줍니다.
-                using (Graphics g = Graphics.FromImage(bmp))
+                Graphics gfxBmp = Graphics.FromImage(bmp);
+                IntPtr hdcBitmap = gfxBmp.GetHdc();
+                bool succeeded = PrintWindow(nhwnd, hdcBitmap, 1);
+                gfxBmp.ReleaseHdc(hdcBitmap);
+                if (!succeeded)
                 {
-                    //찾은 플레이어의 크기만큼 화면을 캡쳐합니다.
-                    IntPtr hdc = g.GetHdc();
-                    PrintWindow(nhwnd, hdc, 0x2);
-                    g.ReleaseHdc(hdc);
+                    gfxBmp.FillRectangle(
+                            new SolidBrush(Color.Gray),
+                            new Rectangle(System.Drawing.Point.Empty, bmp.Size)
+                        );
                 }
-                
-                // debug test
-                //string path = @"c:\\NoxMacrotemp";
-                //DirectoryInfo di = Directory.CreateDirectory(path);
-                //bmp.Save(path+"\\7.bmp",System.Drawing.Imaging.ImageFormat.Bmp);
+                IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
+                GetWindowRgn(nhwnd, hRgn);
+                Region region = Region.FromHrgn(hRgn);
+
+                if (!region.IsEmpty(gfxBmp))
+                {
+                    gfxBmp.ExcludeClip(region);
+                    gfxBmp.Clear(Color.Transparent);
+                }
+                gfxBmp.Dispose();
+                Console.WriteLine((DateTime.Now - startTime).TotalMilliseconds);
+                //// debug test
+                string path = @"c:\\NoxMacrotemp";
+                System.IO.DirectoryInfo di = System.IO.Directory.CreateDirectory(path);
+                bmp.Save(path + "\\7.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
                 return bmp;
             }
             catch (Exception e)
@@ -126,160 +172,255 @@ namespace WindowsFormsApplication3
 
         public System.Drawing.Point searchImg(Bitmap screen_img, Bitmap find_img)
         {
-            //스크린 이미지
-            Mat ScreenMat = new Mat();
-            Mat FindMat = new Mat();
-            Mat res = new Mat();
-            using ( ScreenMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(screen_img))
-            using ( FindMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(find_img))
-            using( res = ScreenMat.MatchTemplate(FindMat, TemplateMatchModes.CCoeffNormed))
+            System.Drawing.Point p = new System.Drawing.Point();
+            Random rnd = new Random();
+
+            try
             {
-                double minval=0, maxval = 0;
-                OpenCvSharp.Point minloc = new OpenCvSharp.Point(), maxloc =new OpenCvSharp.Point();
-
-                Cv2.MinMaxLoc(res, out minval, out maxval, out minloc, out maxloc);
-
-                Console.WriteLine("찾은 이미지 유사도 : " + maxval);
-                System.Drawing.Point p = new System.Drawing.Point();
-                
-                if (maxval >= 0.8)
+                //스크린 이미지 선언
+                using (Mat ScreenMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(screen_img))
+                //찾을 이미지 선언
+                using (Mat FindMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(find_img))
+                using (Mat res = ScreenMat.MatchTemplate(FindMat, TemplateMatchModes.CCoeffNormed))
                 {
-                    textBox1.Text += "\n이미지 매칭 성공 ! 클릭준비중";
-                    textBox1.Refresh();
-                    Random rnd = new Random();
-                    int x1 = rnd.Next(0, screen_img.Width / 10); 
-                    int y1 = rnd.Next(0, screen_img.Height / 10);
-                    p.X = maxloc.X + x1;
-                    p.Y = maxloc.Y + y1;
-                    //Inclick(maxloc.X + x1 , maxloc.Y + y1 , nhwnd);
+                    double minval = 0, maxval = 0;
+                    OpenCvSharp.Point minloc = new OpenCvSharp.Point(), maxloc = new OpenCvSharp.Point();
+
+                    Cv2.MinMaxLoc(res, out minval, out maxval, out minloc, out maxloc);
+
+                    Console.WriteLine("찾은 이미지 유사도 : " + maxval);
+                    
+
+                    if (maxval >= 0.46)
+                    {
+                        textBox1.Text += "\n이미지 매칭 성공 ! 클릭준비중";
+                        textBox1.Refresh();
+                        
+                        int x1 = rnd.Next(0, find_img.Width / 10);
+                        int y1 = rnd.Next(0, find_img.Height / 10);
+                        p.X = maxloc.X + x1;
+                        p.Y = maxloc.Y + y1;
+                        //Inclick(maxloc.X + x1 , maxloc.Y + y1 , nhwnd);
+                        return p;
+                    }
+
                     return p;
                 }
-
-                return p;
             }
+            catch {
+                
+            }
+            finally
+            {
+                rnd = null;
+            }
+            return p;
                
         }
 
 
 
 
-        public void Inclick(int x, int y, IntPtr nhwnd)
+        public bool Inclick(int x, int y, IntPtr nhwnd)
         {
-            
+            bool flag = false;
             if( nhwnd != IntPtr.Zero)
             {
+                Random r = new Random();
+                Thread.Sleep(r.Next(0, 1000));
                 IntPtr lparam = new IntPtr(x | (y << 16));
                 if (lparam != IntPtr.Zero)
                 {
                     textBox2.Text = "해당이미지 클릭";
                     textBox2.Refresh();
-                    Thread.Sleep(1000);
                    IntPtr nhwnd2 = FindWindowEx((int)nhwnd, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow");
 
                     PostMessage(nhwnd2, WM_LBUTTONDOWN, 1, lparam);
                     Thread.Sleep(500);
                     PostMessage(nhwnd2, WM_LBUTTONUP, 0, lparam);
-                    Thread.Sleep(600);
+                    flag = true;
                 }
             }
+            return flag;
+        }
+
+        public bool findStart()
+        {
+
+            Thread.Sleep(2000);
+            textBox1.Text = "전투 시작";
+            textBox1.Refresh();
+            Bitmap screen_img = PrintWindow2();
+            p2 = searchImg(screen_img, findImage);
+             
+            return Inclick(p2.X, p2.Y, nhwnd);
+        }
+
+        public bool buyFlag()
+        {
+            for (int b = 0; b < thunderImage.Length; b++)
+            {
+                Thread.Sleep(2000);
+                textBox1.Text = "번개 충전(0 부터 5까지)" + b;
+                textBox1.Refresh();
+                Bitmap screen_img = PrintWindow2();
+                p2 = searchImg(screen_img, thunderImage[b]);
+                if (Inclick(p2.X, p2.Y, nhwnd) != true) buyFlag();
+                
+            }
+            return true;
+            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Bitmap sell = new Bitmap(@"img\판매.PNG");
-            Bitmap star5 = new Bitmap(@"img\5성희귀.PNG");
-            //찾을 이미지 변수들
-            Bitmap[] findImage =
-            {
-                new Bitmap(@"img\다시하기.PNG"),
-                new Bitmap(@"img\전투시작.PNG"),
-                new Bitmap(@"img\중보.PNG"),
-                new Bitmap(@"img\victory.PNG"),
-                new Bitmap(@"img\상자.PNG"),
-                new Bitmap(@"img\전복아니오.PNG"),
-                new Bitmap(@"img\전복.PNG")
+            //Bitmap sell = new Bitmap(@"img\판매.PNG");
+            //Bitmap star5 = new Bitmap(@"img\5성희귀.PNG");
+            textBox2.Text = "";
+            textBox2.Refresh();
+
             
-            };
 
-            Bitmap[] sellImage =
-            {
-                new Bitmap(@"img\아이템_확인.PNG"),
-                new Bitmap(@"img\획득.PNG")
-            };
-
-            System.Drawing.Point p2 = System.Drawing.Point.Empty, p3= System.Drawing.Point.Empty;
-            Random r = null;
+          
             try
             {
-                for (int i = 0; i < findImage.Length; i++)
-                {
-                    Thread.Sleep(2000);
-                    p2 = new System.Drawing.Point();
-                    p3 = new System.Drawing.Point();
-                    r = new Random();
+                int i = 0;
+                Bitmap screen_img = PrintWindow2();
+                textBox1.Text = "승리 패배 검사";
+                textBox1.Refresh();
 
-                    textBox2.Text = "";
-                    textBox2.Refresh();
-       
-                    switch (i)
+                    for (; i < winOrLose.Length; i++)
                     {
-                        case (int)countImage.상자 + 1:
-                            {
-                                textBox1.Text = "";
-                                textBox1.Text += "\n룬, 아이템 판별중";
-                                textBox1.Refresh();
-                                Thread.Sleep(500);
-                                //5성희귀 판매 flag
-                                bool sellFlag = starFlag_check.Checked;
-                                Bitmap screen_img = PrintWindow2();
-                                if (sellFlag)
-                                {
-                                    p2 = searchImg(screen_img, star5);
-                                    if (!p2.IsEmpty)
-                                    {
-                                        p3 = searchImg(screen_img, sell);
-                                        if (!p3.IsEmpty)
-                                        {
-                                            Inclick(p3.X, p3.Y, nhwnd);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    for (int j = 0; j < sellImage.Length; j++)
-                                    {
-                                        p2 = searchImg(screen_img, sellImage[j]);
-                                        Inclick(p2.X, p2.Y, nhwnd);
-                                    }
-                                }
-                                Thread.Sleep(600 + r.Next(0, 500));
-                                break;
-                            }
+                        screen_img = PrintWindow2();
+                        p2 = searchImg(screen_img, winOrLose[i]);
+                        if (Inclick(p2.X, p2.Y, nhwnd))
+                        {
+                            break;
+                            
+                        }
+                    }
+                    
+                    Task.Delay(1000);
+                screen_img = PrintWindow2();
 
-
-                        default:
-                            {
-                                textBox1.Text = "";
-                                textBox1.Text += "\n이미지 확인" + i;
-                                textBox1.Refresh();
-                                Bitmap screen_img = PrintWindow2();
-                                p2 = searchImg(screen_img, findImage[i]);
-                                Inclick(p2.X, p2.Y, nhwnd);
-                                Thread.Sleep(600 + r.Next(0, 500));
-                                break;
-                            }
+                if (i == 0)
+                {
+                    
+                    textBox1.Text = "승리";
+                    textBox1.Refresh();
+                    for (int j = 0; j < winImage.Length; j++)
+                    {
+                        Thread.Sleep(1000);
+                        screen_img = PrintWindow2();
+                        p2 = searchImg(screen_img, winImage[j]);
+                        Inclick(p2.X, p2.Y, nhwnd);
                     }
                 }
+                else
+                {
+                    textBox1.Text = "전복";
+                    textBox1.Refresh();
+                    p2 = searchImg(screen_img, loseImage);
+                    Inclick(p2.X, p2.Y, nhwnd);
+                }
+                Task.Delay(1000);
+                screen_img = PrintWindow2();
+                for (int z = 0; z < 3; z++)
+                {
+                    p2 = searchImg(screen_img, replayImage);
+                    if (Inclick(p2.X, p2.Y, nhwnd))
+                    {
+                        screen_img = PrintWindow2();
+                        p2 = searchImg(screen_img, thunderImage[0]);
+                        if (!p2.IsEmpty)
+                        {
+                            buyFlag();
+                            screen_img = PrintWindow2();
+                            p2 = searchImg(screen_img, replayImage);
+                            if (Inclick(p2.X, p2.Y, nhwnd))
+                            {
+                                break;
+                            }
+                        }
+
+                        
+                        
+                    }
+                }
+
+                if (!findStart())
+                {
+                    findStart();
+                }
+
+                textBox1.Text = "한바퀴 끝 1분 후 다음 반복 시작";
+                textBox1.Refresh();
+                //for (int a = 0; a < findImage.Length; a++)
+                //{
+                //    textBox1.Text = "전투 시작";
+                //    textBox1.Refresh();
+                //    screen_img = PrintWindow2();
+                //    p2 = searchImg(screen_img, findImage[a]);
+                //    Thread.Sleep(3000);
+                //    Inclick(p2.X, p2.Y, nhwnd);
+                //}
+                
+
+                   
+                    
+                //    switch (i)
+                //    {
+                //        case (int)countImage.상자 + 1:
+                //            {
+                //                textBox1.Text = "\n룬, 아이템 판별중";
+                //                textBox1.Refresh();
+                //                //5성희귀 판매 flag
+                //                //bool sellFlag = starFlag_check.Checked;
+                //                Bitmap screen_img = PrintWindow2();
+                //                //if (sellFlag)
+                //                //{
+                //                //    p2 = searchImg(screen_img, star5);
+                //                //    if (!p2.IsEmpty)
+                //                //    {
+                //                //        p3 = searchImg(screen_img, sell);
+                //                //        if (!p3.IsEmpty)
+                //                //        {
+                //                //            Inclick(p3.X, p3.Y, nhwnd);
+                //                //        }
+                //                //    }
+                //                //}
+                //                //else
+                //                //{
+                //                    for (int j = 0; j < getImage.Length; j++)
+                //                    {
+                //                        p2 = searchImg(screen_img, getImage[j]);
+                //                        Inclick(p2.X, p2.Y, nhwnd);
+                //                    }
+                //                //}
+                //                break;
+                //            }
+
+
+                //        default:
+                //            {
+                //                textBox1.Text = "\n이미지 확인" + i;
+                //                textBox1.Refresh();
+                //                Bitmap screen_img = PrintWindow2();
+                //                p2 = searchImg(screen_img, findImage[i]);
+                //                Inclick(p2.X, p2.Y, nhwnd);
+                //                break;
+                //            }
+                //    }
+                //}
+
             }
             catch(Exception e2)
             {
-
+                MessageBox.Show(e2.Message.ToString());
             }
             finally
             {
-                sell.Dispose();
-                star5.Dispose();
-                findImage = null;
+            
 
             }
         }
@@ -292,7 +433,7 @@ namespace WindowsFormsApplication3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

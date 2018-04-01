@@ -23,3 +23,30 @@ C:\Users\ljk95\documents\visual studio 2015\Projects\WindowsFormsApplication3\Wi
 C:\Users\ljk95\documents\visual studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.exe
 C:\Users\ljk95\documents\visual studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.pdb
 C:\Users\ljk95\documents\visual studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x86\OpenCvSharpExtern.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x86\opencv_ffmpeg341.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x64\OpenCvSharpExtern.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x64\opencv_ffmpeg341_64.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.exe.config
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.exe
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.pdb
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.dll
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.pdb
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.xml
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.pdb
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.xml
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.pdb
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.xml
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.pdb
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.xml
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Form1.resources
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Properties.Resources.resources
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.GenerateResource.cache
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.CoreCompileInputs.cache
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.CopyComplete
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.exe
+C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.pdb
