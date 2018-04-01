@@ -57,34 +57,15 @@ namespace WindowsFormsApplication3
             
         }
 
-        Bitmap[] winOrLose =
-            {
-                new Bitmap(@"img\victory.PNG"),
-                new Bitmap(@"img\전복.PNG")
-            };
+     
 
-        Bitmap[] winImage =
-        {
-                new Bitmap(@"img\victory.PNG"),
-                new Bitmap(@"img\아이템_확인.PNG"),
-                new Bitmap(@"img\획득.PNG")
-            };
 
-        Bitmap loseImage = new Bitmap(@"img\전복아니오.PNG");
+        
         Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
         //찾을 이미지 변수들
         Bitmap findImage = new Bitmap(@"img\전투시작.PNG");
 
 
-        Bitmap[] thunderImage =
-        {
-                new Bitmap(@"img\번충안내.PNG"),
-                new Bitmap(@"img\번충예.PNG"),
-                new Bitmap(@"img\에너지충전.PNG"),
-                new Bitmap(@"img\번충예2.PNG"),
-                new Bitmap(@"img\번충확인.PNG"),
-                new Bitmap(@"img\번충닫기.PNG")
-            };
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -174,14 +155,16 @@ namespace WindowsFormsApplication3
         {
             System.Drawing.Point p = new System.Drawing.Point();
             Random rnd = new Random();
-
+            Mat ScreenMat = new Mat();
+            Mat FindMat = new Mat();
+            Mat res = new Mat();
             try
             {
                 //스크린 이미지 선언
-                using (Mat ScreenMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(screen_img))
+                using (ScreenMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(screen_img))
                 //찾을 이미지 선언
-                using (Mat FindMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(find_img))
-                using (Mat res = ScreenMat.MatchTemplate(FindMat, TemplateMatchModes.CCoeffNormed))
+                using (FindMat = OpenCvSharp.Extensions.BitmapConverter.ToMat(find_img))
+                using (res = ScreenMat.MatchTemplate(FindMat, TemplateMatchModes.CCoeffNormed))
                 {
                     double minval = 0, maxval = 0;
                     OpenCvSharp.Point minloc = new OpenCvSharp.Point(), maxloc = new OpenCvSharp.Point();
@@ -191,7 +174,7 @@ namespace WindowsFormsApplication3
                     Console.WriteLine("찾은 이미지 유사도 : " + maxval);
                     
 
-                    if (maxval >= 0.46)
+                    if (maxval >= 0.7)
                     {
                         textBox1.Text += "\n이미지 매칭 성공 ! 클릭준비중";
                         textBox1.Refresh();
@@ -213,6 +196,9 @@ namespace WindowsFormsApplication3
             finally
             {
                 rnd = null;
+                ScreenMat.Dispose();
+                FindMat.Dispose();
+                res.Dispose();
             }
             return p;
                
@@ -229,47 +215,98 @@ namespace WindowsFormsApplication3
                 Random r = new Random();
                 Thread.Sleep(r.Next(0, 1000));
                 IntPtr lparam = new IntPtr(x | (y << 16));
-                if (lparam != IntPtr.Zero)
+                try
                 {
-                    textBox2.Text = "해당이미지 클릭";
-                    textBox2.Refresh();
-                   IntPtr nhwnd2 = FindWindowEx((int)nhwnd, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow");
+                    if (lparam != IntPtr.Zero)
+                    {
+                        textBox2.Text = "해당이미지 클릭";
+                        textBox2.Refresh();
+                        IntPtr nhwnd2 = FindWindowEx((int)nhwnd, 0, "Qt5QWindowIcon", "ScreenBoardClassWindow");
 
-                    PostMessage(nhwnd2, WM_LBUTTONDOWN, 1, lparam);
-                    Thread.Sleep(500);
-                    PostMessage(nhwnd2, WM_LBUTTONUP, 0, lparam);
-                    flag = true;
+                        PostMessage(nhwnd2, WM_LBUTTONDOWN, 1, lparam);
+                        Thread.Sleep(500);
+                        PostMessage(nhwnd2, WM_LBUTTONUP, 0, lparam);
+                        flag = true;
+                    }
+                }
+                catch { }
+                finally
+                {
+                    r = null;
                 }
             }
             return flag;
         }
 
-        public bool findStart()
-        {
-
-            Thread.Sleep(2000);
-            textBox1.Text = "전투 시작";
-            textBox1.Refresh();
-            Bitmap screen_img = PrintWindow2();
-            p2 = searchImg(screen_img, findImage);
-             
-            return Inclick(p2.X, p2.Y, nhwnd);
-        }
+ 
 
         public bool buyFlag()
         {
-            for (int b = 0; b < thunderImage.Length; b++)
+            Bitmap[] thunderImage =
             {
-                Thread.Sleep(2000);
-                textBox1.Text = "번개 충전(0 부터 5까지)" + b;
-                textBox1.Refresh();
-                Bitmap screen_img = PrintWindow2();
-                p2 = searchImg(screen_img, thunderImage[b]);
-                if (Inclick(p2.X, p2.Y, nhwnd) != true) buyFlag();
-                
+                new Bitmap(@"img\번충안내.PNG"),
+                new Bitmap(@"img\번충예.PNG"),
+                new Bitmap(@"img\에너지충전.PNG"),
+                new Bitmap(@"img\번충예2.PNG"),
+                new Bitmap(@"img\번충확인.PNG"),
+                new Bitmap(@"img\번충닫기.PNG")
+            };
+            try
+            {
+                for (int b = 0; b < thunderImage.Length; b++)
+                {
+                    Thread.Sleep(2000);
+                    textBox1.Text = "번개 충전(0 부터 5까지)" + b;
+                    textBox1.Refresh();
+                    Bitmap screen_img = PrintWindow2();
+                    p2 = searchImg(screen_img, thunderImage[b]);
+                    if (Inclick(p2.X, p2.Y, nhwnd) != true)
+                    {
+                        thunderImage[0].Dispose();
+                        thunderImage[1].Dispose();
+                        thunderImage[2].Dispose();
+                        thunderImage[3].Dispose();
+                        thunderImage[4].Dispose();
+                        thunderImage[5].Dispose();
+                        buyFlag();
+                    }
+
+                }
             }
+            catch { }
+            finally {
+                thunderImage[0].Dispose();
+                thunderImage[1].Dispose();
+                thunderImage[2].Dispose();
+                thunderImage[3].Dispose();
+                thunderImage[4].Dispose();
+                thunderImage[5].Dispose();
+            }
+
             return true;
             
+        }
+
+        private bool pointclick(int X, int Y,int Xsize, int Ysize, string description)
+        {
+            System.Drawing.Point p = new System.Drawing.Point();
+            Random r = new Random();
+            try
+            {
+                textBox1.Text = description;
+                textBox1.Refresh();
+                p2.X = X + r.Next(0, Xsize / 10);
+                p2.Y = Y + r.Next(0, Ysize / 10);
+                bool flag = Inclick(p2.X, p2.Y, nhwnd);
+                Thread.Sleep(1000+r.Next(0,500));
+                return flag;
+            }
+            catch { }
+            finally {
+                r = null;
+                p = System.Drawing.Point.Empty;
+            }
+            return false;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -279,16 +316,22 @@ namespace WindowsFormsApplication3
             textBox2.Text = "";
             textBox2.Refresh();
 
-            
 
-          
+            Random r = new Random();
+            Bitmap screen_img = PrintWindow2();
             try
             {
                 int i = 0;
-                Bitmap screen_img = PrintWindow2();
+                
                 textBox1.Text = "승리 패배 검사";
                 textBox1.Refresh();
-
+                Bitmap[] winOrLose =
+                {
+                    new Bitmap(@"img\victory.PNG"),
+                    new Bitmap(@"img\전복.PNG")
+                };
+                try
+                {
                     for (; i < winOrLose.Length; i++)
                     {
                         screen_img = PrintWindow2();
@@ -296,122 +339,82 @@ namespace WindowsFormsApplication3
                         if (Inclick(p2.X, p2.Y, nhwnd))
                         {
                             break;
-                            
                         }
                     }
+                }
+                catch { }
+                finally
+                {
+                    winOrLose[0].Dispose();
+                    winOrLose[1].Dispose();
+                    winOrLose = null;
+                }
                     
                     Task.Delay(1000);
-                screen_img = PrintWindow2();
-
+                
                 if (i == 0)
                 {
                     
                     textBox1.Text = "승리";
                     textBox1.Refresh();
-                    for (int j = 0; j < winImage.Length; j++)
-                    {
-                        Thread.Sleep(1000);
-                        screen_img = PrintWindow2();
-                        p2 = searchImg(screen_img, winImage[j]);
-                        Inclick(p2.X, p2.Y, nhwnd);
-                    }
+
+                    pointclick(580, 400, 160, 73, "아무데나 클릭");
+                    pointclick(416, 441, 119, 47, "룬획득");
+                    pointclick(341, 452, 115, 48, "확인");
+                    pointclick(132, 314, 227, 45, "다시하기");
+                    pointclick(580, 400, 160, 73, "전투시작");
                 }
-                else
+                else if(i==1)
                 {
                     textBox1.Text = "전복";
                     textBox1.Refresh();
+                    Bitmap loseImage = new Bitmap(@"img\전복아니오.PNG");
                     p2 = searchImg(screen_img, loseImage);
                     Inclick(p2.X, p2.Y, nhwnd);
+                    loseImage.Dispose();
+                    pointclick(132, 314, 227, 45, "다시하기");
+                    pointclick(580, 400, 160, 73, "전투시작");
                 }
-                Task.Delay(1000);
-                screen_img = PrintWindow2();
-                for (int z = 0; z < 3; z++)
+                else
                 {
-                    p2 = searchImg(screen_img, replayImage);
-                    if (Inclick(p2.X, p2.Y, nhwnd))
+                    Task.Delay(1000);
+                    Bitmap thunderbuy = new Bitmap(@"img\번충안내.PNG");
+                    screen_img = PrintWindow2();
+                    for (int z = 0; z < 3; z++)
                     {
-                        screen_img = PrintWindow2();
-                        p2 = searchImg(screen_img, thunderImage[0]);
-                        if (!p2.IsEmpty)
+                        p2 = searchImg(screen_img, replayImage);
+                        if (Inclick(p2.X, p2.Y, nhwnd))
                         {
-                            buyFlag();
                             screen_img = PrintWindow2();
-                            p2 = searchImg(screen_img, replayImage);
-                            if (Inclick(p2.X, p2.Y, nhwnd))
+
+                            p2 = searchImg(screen_img, thunderbuy);
+                            if (!p2.IsEmpty)
                             {
-                                break;
+                                buyFlag();
+                                screen_img = PrintWindow2();
+                                p2 = searchImg(screen_img, replayImage);
+                                if (Inclick(p2.X, p2.Y, nhwnd))
+                                {
+                                    break;
+                                }
                             }
+
+
+
                         }
-
-                        
-                        
                     }
+                    thunderbuy.Dispose();
+
+                    pointclick(132, 314, 227, 45, "다시하기");
+                    pointclick(580, 400, 160, 73, "전투시작");
+
+
                 }
 
-                if (!findStart())
-                {
-                    findStart();
-                }
 
                 textBox1.Text = "한바퀴 끝 1분 후 다음 반복 시작";
                 textBox1.Refresh();
-                //for (int a = 0; a < findImage.Length; a++)
-                //{
-                //    textBox1.Text = "전투 시작";
-                //    textBox1.Refresh();
-                //    screen_img = PrintWindow2();
-                //    p2 = searchImg(screen_img, findImage[a]);
-                //    Thread.Sleep(3000);
-                //    Inclick(p2.X, p2.Y, nhwnd);
-                //}
-                
 
-                   
-                    
-                //    switch (i)
-                //    {
-                //        case (int)countImage.상자 + 1:
-                //            {
-                //                textBox1.Text = "\n룬, 아이템 판별중";
-                //                textBox1.Refresh();
-                //                //5성희귀 판매 flag
-                //                //bool sellFlag = starFlag_check.Checked;
-                //                Bitmap screen_img = PrintWindow2();
-                //                //if (sellFlag)
-                //                //{
-                //                //    p2 = searchImg(screen_img, star5);
-                //                //    if (!p2.IsEmpty)
-                //                //    {
-                //                //        p3 = searchImg(screen_img, sell);
-                //                //        if (!p3.IsEmpty)
-                //                //        {
-                //                //            Inclick(p3.X, p3.Y, nhwnd);
-                //                //        }
-                //                //    }
-                //                //}
-                //                //else
-                //                //{
-                //                    for (int j = 0; j < getImage.Length; j++)
-                //                    {
-                //                        p2 = searchImg(screen_img, getImage[j]);
-                //                        Inclick(p2.X, p2.Y, nhwnd);
-                //                    }
-                //                //}
-                //                break;
-                //            }
-
-
-                //        default:
-                //            {
-                //                textBox1.Text = "\n이미지 확인" + i;
-                //                textBox1.Refresh();
-                //                Bitmap screen_img = PrintWindow2();
-                //                p2 = searchImg(screen_img, findImage[i]);
-                //                Inclick(p2.X, p2.Y, nhwnd);
-                //                break;
-                //            }
-                //    }
-                //}
 
             }
             catch(Exception e2)
@@ -420,8 +423,8 @@ namespace WindowsFormsApplication3
             }
             finally
             {
-            
 
+                screen_img.Dispose();
             }
         }
 
