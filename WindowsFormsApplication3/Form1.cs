@@ -352,7 +352,34 @@ namespace WindowsFormsApplication3
                     textBox1.Refresh();
                     screen_img = PrintWindow2();
                     pointclick(p2.X, p2.Y, 160, 73, "아무데나 클릭");
-                    pointclick(416, 441, 119, 47, "룬획득");
+
+                    Bitmap check_rare_5star = new Bitmap(@"img\check_rare_5star.PNG");
+                    p2 = searchImg(screen_img, check_rare_5star);
+                    if (!p2.IsEmpty && starFlag_check.Checked == true)
+                    {
+                        Bitmap sell_runes = new Bitmap(@"img\sell_runes.PNG");
+                        Bitmap sell_runes_yes = new Bitmap(@"img\sell_runes_yes.PNG");
+
+                        p2 = searchImg(screen_img, sell_runes);
+                        if (!p2.IsEmpty)
+                        {
+                            pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매");
+                            screen_img = PrintWindow2();
+                            p2 = searchImg(screen_img, sell_runes_yes);
+                            if (p2.IsEmpty)
+                            {
+                                pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매 확인");
+                                Task.Delay(1000).Wait();
+                            }
+
+                        }
+                        sell_runes.Dispose();
+
+                    }
+                    else
+                    {
+                        pointclick(416, 441, 119, 47, "룬획득");
+                    }
                     Bitmap getItem_image = new Bitmap(@"img\아이템_확인.PNG");
                     p2 = searchImg(screen_img, getItem_image);
                     if (!p2.IsEmpty)
@@ -362,6 +389,9 @@ namespace WindowsFormsApplication3
                     Task.Delay(1000).Wait();
                     pointclick(132, 314, 227, 45, "다시하기");
                     screen_img.Dispose();
+                    getItem_image.Dispose();
+                    check_rare_5star.Dispose();
+                    
                 }
                 else if(i==1)
                 {
