@@ -237,7 +237,7 @@ namespace WindowsFormsApplication3
         {
             Bitmap[] thunderImage =
             {
-                new Bitmap(@"img\번충안내.PNG"),
+                new Bitmap(@"img\번충안내2.PNG"),
                 new Bitmap(@"img\번충예.PNG"),
                 new Bitmap(@"img\에너지충전.PNG"),
                 new Bitmap(@"img\번충예2.PNG"),
@@ -248,7 +248,7 @@ namespace WindowsFormsApplication3
             {
                 for (int b = 0; b < thunderImage.Length; b++)
                 {
-                    Task.Delay(2000).Wait();
+                    Task.Delay(1000).Wait();
                     textBox1.Text = "번개 충전(0 부터 5까지)" + b;
                     textBox1.Refresh();
                     Bitmap screen_img = PrintWindow2();
@@ -409,7 +409,7 @@ namespace WindowsFormsApplication3
                 {
                     textBox1.Text = "전복";
                     textBox1.Refresh();
-                    Bitmap loseImage = new Bitmap(@"img\전복.PNG");
+                    Bitmap loseImage = new Bitmap(@"img\defeated.PNG");
                     screen_img = PrintWindow2();
                     p2 = searchImg(screen_img, loseImage);
                     if (!p2.IsEmpty)
@@ -426,7 +426,7 @@ namespace WindowsFormsApplication3
                 }
 
                 Task.Delay(1000).Wait();
-                Bitmap thunderbuy = new Bitmap(@"img\번충안내.PNG");
+                Bitmap thunderbuy = new Bitmap(@"img\번충안내2.PNG");
                 Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
                 screen_img = PrintWindow2();
 
