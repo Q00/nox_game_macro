@@ -164,7 +164,7 @@ namespace WindowsFormsApplication3
                     Console.WriteLine("찾은 이미지 유사도 : " + maxval);
                     
 
-                    if (maxval >= 0.8)
+                    if (maxval >= 0.72)
                     {
                         textBox1.Text += "\n이미지 매칭 성공 ! 클릭준비중";
                         textBox1.Refresh();
@@ -322,13 +322,14 @@ namespace WindowsFormsApplication3
                 Bitmap[] winOrLose =
                 {
                     new Bitmap(@"img\victory.PNG"),
-                    new Bitmap(@"img\전복.PNG")
+                    new Bitmap(@"img\전복 아니오.PNG")
                 };
                 try
                 {
-                    for (; i < winOrLose.Length; i++)
+                    screen_img = PrintWindow2();
+                    for (; i < 2; i++)
                     {
-                        screen_img = PrintWindow2();
+                        
                         p2 = searchImg(screen_img, winOrLose[i]);
                         if (Inclick(p2.X, p2.Y, nhwnd))
                         {
@@ -366,20 +367,31 @@ namespace WindowsFormsApplication3
                             pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매");
                             screen_img = PrintWindow2();
                             p2 = searchImg(screen_img, sell_runes_yes);
-                            if (p2.IsEmpty)
+                            if (!p2.IsEmpty)
                             {
-                                pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매 확인");
+                                pointclick(p2.X, p2.Y, sell_runes_yes.Width, sell_runes_yes.Height, "5성룬 판매 확인");
                                 Task.Delay(1000).Wait();
                             }
 
                         }
                         sell_runes.Dispose();
-
+                        sell_runes_yes.Dispose();
                     }
                     else
                     {
-                        pointclick(416, 441, 119, 47, "룬획득");
+                        Bitmap get_runes = new Bitmap(@"img\획득.PNG");
+                        screen_img = PrintWindow2();
+                        p2 = searchImg(screen_img, get_runes);
+                        if (!p2.IsEmpty)
+                        {
+                            pointclick(p2.X, p2.Y, get_runes.Width, get_runes.Height, "룬획득");
+                            Task.Delay(1000).Wait();
+                        }
+                        get_runes.Dispose();
+                        screen_img.Dispose();
                     }
+                    Task.Delay(1000).Wait();
+                    screen_img = PrintWindow2();
                     Bitmap getItem_image = new Bitmap(@"img\아이템_확인.PNG");
                     p2 = searchImg(screen_img, getItem_image);
                     if (!p2.IsEmpty)
@@ -393,25 +405,26 @@ namespace WindowsFormsApplication3
                     check_rare_5star.Dispose();
                     
                 }
-                else if(i==1)
+                else if(i ==1)
                 {
                     textBox1.Text = "전복";
                     textBox1.Refresh();
-                    Bitmap loseImage = new Bitmap(@"img\전복아니오.PNG");
+                    Bitmap loseImage = new Bitmap(@"img\전복.PNG");
                     screen_img = PrintWindow2();
                     p2 = searchImg(screen_img, loseImage);
                     if (!p2.IsEmpty)
                     {
-                        pointclick(p2.X, p2.Y, loseImage.Width, loseImage.Height, "전복 아니오");
+                        pointclick(p2.X, p2.Y, loseImage.Width, loseImage.Height, "전복 다시하기");
+                        pointclick(132, 314, 227, 45, "다시하기");
                     }
                     loseImage.Dispose();
-                    pointclick(132, 314, 227, 45, "다시하기");
                     screen_img.Dispose();
-                }
-                else
+                }else
                 {
-
+                    textBox1.Text = "승리, 패배 이미지 찾지못함";
+                    textBox1.Refresh();
                 }
+
                 Task.Delay(1000).Wait();
                 Bitmap thunderbuy = new Bitmap(@"img\번충안내.PNG");
                 Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
@@ -440,10 +453,11 @@ namespace WindowsFormsApplication3
                 {
                     pointclick(p2.X, p2.Y, start_img.Width, start_img.Height, "전투시작");
                 }
+                Task.Delay(2000).Wait();
                 textBox1.Text = "한바퀴 끝 1분 후 다음 반복 시작";
                 textBox1.Refresh();
                 start_img.Dispose();
-
+                
             }
             catch(Exception e2)
             {
@@ -460,6 +474,7 @@ namespace WindowsFormsApplication3
         {
             MessageBox.Show("종료합니다.");
             timer.Stop();
+            timer.Dispose();
         }
 
         private void Form1_Load(object sender, EventArgs e)

@@ -14,10 +14,11 @@ this is a program which helps you play game better.
 > 1, 2 issue by using opencv image search, solved.
 3. sometimes click the chat button.
 > 3 issue by not checking wrong 0, 0 point, solved
-4. when fail, it can't start.
+4. when fail, it can't start. 
+> 4 issue solved
 --------
 
 #plan
-1. 5star Rare runes sell - 04-02
+1. 5star Rare runes sell - 04-02 finish
 2. gui - 04-03
 3. volcano stage mode - 04-04
