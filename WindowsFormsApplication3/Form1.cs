@@ -46,10 +46,10 @@ namespace WindowsFormsApplication3
             아이템확인, 판매, 획득
         }
 
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        System.Windows.Forms.Timer timer;//= new System.Windows.Forms.Timer();
 
-        System.Drawing.Point p2 = System.Drawing.Point.Empty;
-
+        System.Drawing.Point p2;
+        
         public Form1()
         {
             InitializeComponent();
@@ -263,7 +263,7 @@ namespace WindowsFormsApplication3
                         thunderImage[5].Dispose();
                         buyFlag();
                     }
-
+                                       
                 }
             }
             catch { }
@@ -403,7 +403,7 @@ namespace WindowsFormsApplication3
                     screen_img.Dispose();
                     getItem_image.Dispose();
                     check_rare_5star.Dispose();
-                    
+
                 }
                 else if(i ==1)
                 {
@@ -415,6 +415,9 @@ namespace WindowsFormsApplication3
                     if (!p2.IsEmpty)
                     {
                         pointclick(p2.X, p2.Y, loseImage.Width, loseImage.Height, "전복 다시하기");
+                        pointclick(132, 314, 227, 45, "다시하기");
+                    }else
+                    {
                         pointclick(132, 314, 227, 45, "다시하기");
                     }
                     loseImage.Dispose();

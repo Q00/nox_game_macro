@@ -44,7 +44,6 @@ C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\Wi
 C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.xml
 C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.pdb
 C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.xml
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
 C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Form1.resources
 C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Properties.Resources.resources
 C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.GenerateResource.Cache

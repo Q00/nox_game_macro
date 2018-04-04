@@ -87,10 +87,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(82, 122);
+            this.textBox1.Location = new System.Drawing.Point(29, 122);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(114, 21);
+            this.textBox1.Size = new System.Drawing.Size(184, 21);
             this.textBox1.TabIndex = 4;
             // 
             // timer1
