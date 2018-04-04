@@ -41,7 +41,6 @@ C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Ex
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.xml
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.pdb
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.xml
-C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Form1.resources
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Properties.Resources.resources
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.GenerateResource.cache
