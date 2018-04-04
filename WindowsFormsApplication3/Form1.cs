@@ -56,7 +56,15 @@ namespace WindowsFormsApplication3
             MessageBox.Show("환영합니다.");
             
         }
+        //승리 횟수
+        int winCount=0;
 
+        //번충횟수
+        int buyCount = 0;
+
+        //룬판매횟수
+        int sellCount = 0;
+         
         private void button1_Click(object sender, EventArgs e)
         {
             nhwnd = (IntPtr)FindWindow(null, "녹스 플레이어"); // 윈도우 창 제목
@@ -65,6 +73,7 @@ namespace WindowsFormsApplication3
             {
                 if (!nhwnd.Equals(IntPtr.Zero))
                 {
+                    
                     // 타이머 변수
                     timer = new System.Windows.Forms.Timer();
                     MoveWindow(nhwnd, 0, 0, 800, 600, true);
@@ -166,8 +175,8 @@ namespace WindowsFormsApplication3
 
                     if (maxval >= 0.72)
                     {
-                        textBox1.Text += "\n이미지 매칭 성공 ! 클릭준비중";
-                        textBox1.Refresh();
+                        textBox2.Text = "이미지 매칭 성공 ! 클릭준비중";
+                        textBox2.Refresh();
 
                         int x1 = rnd.Next(0, find_img.Width / 10);
                         int y1 = rnd.Next(0, find_img.Height / 10);
@@ -244,6 +253,8 @@ namespace WindowsFormsApplication3
                 new Bitmap(@"img\번충확인.PNG"),
                 new Bitmap(@"img\번충닫기.PNG")
             };
+            buyCount++;
+            textBox4.Text= buyCount+"번 충전";
             try
             {
                 for (int b = 0; b < thunderImage.Length; b++)
@@ -253,17 +264,8 @@ namespace WindowsFormsApplication3
                     textBox1.Refresh();
                     Bitmap screen_img = PrintWindow2();
                     p2 = searchImg(screen_img, thunderImage[b]);
-                    if (Inclick(p2.X, p2.Y, nhwnd) != true)
-                    {
-                        thunderImage[0].Dispose();
-                        thunderImage[1].Dispose();
-                        thunderImage[2].Dispose();
-                        thunderImage[3].Dispose();
-                        thunderImage[4].Dispose();
-                        thunderImage[5].Dispose();
-                        buyFlag();
-                    }
-                                       
+                    pointclick(p2.X, p2.Y, 160, 73, "아무데나 클릭");
+
                 }
             }
             catch { }
@@ -286,7 +288,7 @@ namespace WindowsFormsApplication3
             Random r = new Random();
             try
             {
-                textBox1.Text = description;
+                textBox1.Text +=  Environment.NewLine +description;
                 textBox1.Refresh();
                 p2.X = X + r.Next(0, Xsize/2 );
                 p2.Y = Y + r.Next(0, Ysize/2 );
@@ -309,10 +311,13 @@ namespace WindowsFormsApplication3
             textBox2.Text = "";
             textBox2.Refresh();
 
+            textBox1.Text = "";
+            textBox1.Refresh();
 
             Random r = new Random();
             Bitmap screen_img = PrintWindow2();
             Bitmap start_img = new Bitmap(@"img\전투시작.PNG");
+            
             try
             {
                 int i = 0;
@@ -348,7 +353,10 @@ namespace WindowsFormsApplication3
                 
                 if (i == 0)
                 {
-                    
+                    winCount++;
+                    textBox3.Text = winCount + "회 승리";
+                    textBox3.Refresh();
+
                     textBox1.Text = "승리";
                     textBox1.Refresh();
                     screen_img = PrintWindow2();
@@ -369,6 +377,9 @@ namespace WindowsFormsApplication3
                             p2 = searchImg(screen_img, sell_runes_yes);
                             if (!p2.IsEmpty)
                             {
+                                sellCount++;
+                                textBox5.Text = sellCount + "번 5성룬 희귀 판매";
+                                textBox5.Refresh();
                                 pointclick(p2.X, p2.Y, sell_runes_yes.Width, sell_runes_yes.Height, "5성룬 판매 확인");
                                 Task.Delay(1000).Wait();
                             }
@@ -407,7 +418,7 @@ namespace WindowsFormsApplication3
                 }
                 else if(i ==1)
                 {
-                    textBox1.Text = "전복";
+                    textBox1.Text =  Environment.NewLine + "전복";
                     textBox1.Refresh();
                     Bitmap loseImage = new Bitmap(@"img\defeated.PNG");
                     screen_img = PrintWindow2();
@@ -415,6 +426,7 @@ namespace WindowsFormsApplication3
                     if (!p2.IsEmpty)
                     {
                         pointclick(p2.X, p2.Y, loseImage.Width, loseImage.Height, "전복 다시하기");
+                        Task.Delay(400).Wait();
                         pointclick(132, 314, 227, 45, "다시하기");
                     }else
                     {
@@ -424,7 +436,7 @@ namespace WindowsFormsApplication3
                     screen_img.Dispose();
                 }else
                 {
-                    textBox1.Text = "승리, 패배 이미지 찾지못함";
+                    textBox1.Text =  Environment.NewLine + "승리, 패배 이미지 찾지못함";
                     textBox1.Refresh();
                 }
 
@@ -457,7 +469,7 @@ namespace WindowsFormsApplication3
                     pointclick(p2.X, p2.Y, start_img.Width, start_img.Height, "전투시작");
                 }
                 Task.Delay(2000).Wait();
-                textBox1.Text = "한바퀴 끝 1분 후 다음 반복 시작";
+                textBox1.Text =  Environment.NewLine + "한바퀴 끝 1분 후 다음 반복 시작";
                 textBox1.Refresh();
                 start_img.Dispose();
                 
@@ -478,11 +490,14 @@ namespace WindowsFormsApplication3
             MessageBox.Show("종료합니다.");
             timer.Stop();
             timer.Dispose();
+            winCount = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             
         }
+
+
     }
 }
