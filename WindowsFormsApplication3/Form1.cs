@@ -170,18 +170,17 @@ namespace WindowsFormsApplication3
 
                     Cv2.MinMaxLoc(res, out minval, out maxval, out minloc, out maxloc);
 
-                    Console.WriteLine("찾은 이미지 유사도 : " + maxval);
+                    textBox6.Text="찾은 이미지 유사도 : " + maxval;
+                    textBox6.Refresh();
                     
 
-                    if (maxval >= 0.72)
+                    if (maxval >= 0.700)
                     {
                         textBox2.Text = "이미지 매칭 성공 ! 클릭준비중";
                         textBox2.Refresh();
 
-                        int x1 = rnd.Next(0, find_img.Width / 10);
-                        int y1 = rnd.Next(0, find_img.Height / 10);
-                        p.X = maxloc.X + x1;
-                        p.Y = maxloc.Y + y1;
+                        p.X = maxloc.X;
+                        p.Y = maxloc.Y;
                         //Inclick(maxloc.X + x1 , maxloc.Y + y1 , nhwnd);
                         return p;
                     }
@@ -264,8 +263,10 @@ namespace WindowsFormsApplication3
                     textBox1.Refresh();
                     Bitmap screen_img = PrintWindow2();
                     p2 = searchImg(screen_img, thunderImage[b]);
-                    pointclick(p2.X, p2.Y, 160, 73, "아무데나 클릭");
-
+                    if (!p2.IsEmpty)
+                    {
+                        pointclick(p2.X, p2.Y, thunderImage[b].Width, thunderImage[b].Height, "아무데나 클릭");
+                    }
                 }
             }
             catch { }
@@ -290,8 +291,8 @@ namespace WindowsFormsApplication3
             {
                 textBox1.Text +=  Environment.NewLine +description;
                 textBox1.Refresh();
-                p2.X = X + r.Next(0, Xsize/2 );
-                p2.Y = Y + r.Next(0, Ysize/2 );
+                p2.X = X + r.Next(0, (int)Xsize/3);
+                p2.Y = Y + r.Next(0, (int)Ysize/3);
                 bool flag = Inclick(p2.X, p2.Y, nhwnd);
                 Task.Delay(1000 + r.Next(0, 500)).Wait();
                 return flag;
@@ -350,7 +351,7 @@ namespace WindowsFormsApplication3
                     winOrLose = null;
                 }
                 screen_img.Dispose();
-                
+                Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
                 if (i == 0)
                 {
                     winCount++;
@@ -362,31 +363,40 @@ namespace WindowsFormsApplication3
                     screen_img = PrintWindow2();
                     pointclick(p2.X, p2.Y, 160, 73, "아무데나 클릭");
 
+                    screen_img = PrintWindow2();
                     Bitmap check_rare_5star = new Bitmap(@"img\check_rare_5star.PNG");
                     p2 = searchImg(screen_img, check_rare_5star);
                     if (!p2.IsEmpty && starFlag_check.Checked == true)
                     {
-                        Bitmap sell_runes = new Bitmap(@"img\sell_runes.PNG");
-                        Bitmap sell_runes_yes = new Bitmap(@"img\sell_runes_yes.PNG");
-
-                        p2 = searchImg(screen_img, sell_runes);
+                        ;
+                        Bitmap check_rare_5star2 = new Bitmap(@"img\check_rare_5star2.PNG");
+                        p2 = searchImg(screen_img, check_rare_5star2);
                         if (!p2.IsEmpty)
                         {
-                            pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매");
-                            screen_img = PrintWindow2();
-                            p2 = searchImg(screen_img, sell_runes_yes);
+
+                            Bitmap sell_runes = new Bitmap(@"img\sell_runes.PNG");
+                            Bitmap sell_runes_yes = new Bitmap(@"img\sell_runes_yes.PNG");
+
+                            p2 = searchImg(screen_img, sell_runes);
                             if (!p2.IsEmpty)
                             {
-                                sellCount++;
-                                textBox5.Text = sellCount + "번 5성룬 희귀 판매";
-                                textBox5.Refresh();
-                                pointclick(p2.X, p2.Y, sell_runes_yes.Width, sell_runes_yes.Height, "5성룬 판매 확인");
-                                Task.Delay(1000).Wait();
-                            }
+                                pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매");
+                                screen_img = PrintWindow2();
+                                p2 = searchImg(screen_img, sell_runes_yes);
+                                if (!p2.IsEmpty)
+                                {
+                                    Task.Delay(1000).Wait();
+                                    sellCount++;
+                                    textBox5.Text = sellCount + "번 5성룬 희귀 판매";
+                                    textBox5.Refresh();
+                                    pointclick(p2.X, p2.Y, sell_runes_yes.Width, sell_runes_yes.Height, "5성룬 판매 확인");
 
+                                }
+
+                            }
+                            sell_runes.Dispose();
+                            sell_runes_yes.Dispose();
                         }
-                        sell_runes.Dispose();
-                        sell_runes_yes.Dispose();
                     }
                     else
                     {
@@ -401,7 +411,7 @@ namespace WindowsFormsApplication3
                         get_runes.Dispose();
                         screen_img.Dispose();
                     }
-                    Task.Delay(1000).Wait();
+                    Task.Delay(600).Wait();
                     screen_img = PrintWindow2();
                     Bitmap getItem_image = new Bitmap(@"img\아이템_확인.PNG");
                     p2 = searchImg(screen_img, getItem_image);
@@ -410,27 +420,28 @@ namespace WindowsFormsApplication3
                         pointclick(p2.X, p2.Y, getItem_image.Width, getItem_image.Height, "아이템 확인");
                     }
                     Task.Delay(1000).Wait();
-                    pointclick(132, 314, 227, 45, "다시하기");
                     screen_img.Dispose();
                     getItem_image.Dispose();
                     check_rare_5star.Dispose();
-
+                    pointclick(132, 314, 227, 45, "다시하기");
                 }
                 else if(i ==1)
                 {
                     textBox1.Text =  Environment.NewLine + "전복";
                     textBox1.Refresh();
                     Bitmap loseImage = new Bitmap(@"img\defeated.PNG");
+                    ;
                     screen_img = PrintWindow2();
                     p2 = searchImg(screen_img, loseImage);
                     if (!p2.IsEmpty)
                     {
                         pointclick(p2.X, p2.Y, loseImage.Width, loseImage.Height, "전복 다시하기");
                         Task.Delay(400).Wait();
-                        pointclick(132, 314, 227, 45, "다시하기");
+                        p2 = searchImg(screen_img, replayImage);
+                        pointclick(p2.X, p2.Y, replayImage.Width, replayImage.Height, "다시하기"); ;
                     }else
                     {
-                        pointclick(132, 314, 227, 45, "다시하기");
+                        pointclick(p2.X, p2.Y, replayImage.Width, replayImage.Height, "다시하기");
                     }
                     loseImage.Dispose();
                     screen_img.Dispose();
@@ -442,7 +453,7 @@ namespace WindowsFormsApplication3
 
                 Task.Delay(1000).Wait();
                 Bitmap thunderbuy = new Bitmap(@"img\번충안내2.PNG");
-                Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
+                
                 screen_img = PrintWindow2();
 
                 p2 = searchImg(screen_img, thunderbuy);
@@ -451,16 +462,18 @@ namespace WindowsFormsApplication3
                 {
                     buyFlag();
                     screen_img = PrintWindow2();
-                        
-                    p2 = searchImg(screen_img, replayImage);
-                    Inclick(p2.X, p2.Y, nhwnd);
                     pointclick(132, 314, 227, 45, "다시하기");
+
                 }
                 
-                replayImage.Dispose();
                 thunderbuy.Dispose();
                 screen_img.Dispose();
-                
+
+                screen_img = PrintWindow2();
+                p2 = searchImg(screen_img, replayImage);
+                if (!p2.IsEmpty) {
+                    pointclick(132, 314, 227, 45, "다시하기");
+                }
                 screen_img = PrintWindow2();
                 p2 = searchImg(screen_img, start_img);
                 Task.Delay(600).Wait();
