@@ -1,27 +1,3 @@
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x86\OpenCvSharpExtern.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x86\opencv_ffmpeg341.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x64\OpenCvSharpExtern.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x64\opencv_ffmpeg341_64.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.exe.config
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.exe
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.pdb
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.dll
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.pdb
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.xml
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.pdb
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.xml
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.pdb
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.xml
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.pdb
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.xml
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Form1.resources
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Properties.Resources.resources
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.GenerateResource.Cache
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.exe
-C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.pdb
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x86\OpenCvSharpExtern.dll
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x86\opencv_ffmpeg341.dll
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\bin\Release\dll\x64\OpenCvSharpExtern.dll
@@ -48,3 +24,28 @@ C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsAp
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.CopyComplete
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.exe
 C:\Users\user\nox_game_macro\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.pdb
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x86\OpenCvSharpExtern.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x86\opencv_ffmpeg341.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x64\OpenCvSharpExtern.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\dll\x64\opencv_ffmpeg341_64.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.exe.config
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.exe
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\WindowsFormsApplication3.pdb
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.dll
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.pdb
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.xml
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.pdb
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Blob.xml
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.pdb
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.Extensions.xml
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.pdb
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\bin\Release\OpenCvSharp.UserInterface.xml
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csprojResolveAssemblyReference.cache
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Form1.resources
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.Properties.Resources.resources
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.csproj.GenerateResource.Cache
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.exe
+C:\Users\ljk95\Documents\Visual Studio 2015\Projects\WindowsFormsApplication3\WindowsFormsApplication3\obj\Release\WindowsFormsApplication3.pdb
