@@ -64,9 +64,6 @@ namespace WindowsFormsApplication3
 
         //룬판매횟수
         int sellCount = 0;
-
-        //전복횟수
-        int loseCount = 0;
          
         private void button1_Click(object sender, EventArgs e)
         {
@@ -177,7 +174,7 @@ namespace WindowsFormsApplication3
                     textBox6.Refresh();
                     
 
-                    if (maxval >= 0.7)
+                    if (maxval >= 0.700)
                     {
                         textBox2.Text = "이미지 매칭 성공 ! 클릭준비중";
                         textBox2.Refresh();
@@ -326,7 +323,8 @@ namespace WindowsFormsApplication3
             {
                 int i = 0;
                 
-
+                textBox1.Text = "승리 패배 검사";
+                textBox1.Refresh();
                 Bitmap[] winOrLose =
                 {
                     new Bitmap(@"img\victory.PNG"),
@@ -339,9 +337,8 @@ namespace WindowsFormsApplication3
                     {
                         
                         p2 = searchImg(screen_img, winOrLose[i]);
-                        if (!p2.IsEmpty)
+                        if (Inclick(p2.X, p2.Y, nhwnd))
                         {
-                            pointclick(p2.X, p2.Y, winOrLose[i].Width, winOrLose[i].Height, "승리 패배 검사 " + i);
                             break;
                         }
                     }
@@ -354,6 +351,7 @@ namespace WindowsFormsApplication3
                     winOrLose = null;
                 }
                 screen_img.Dispose();
+                Bitmap replayImage = new Bitmap(@"img\다시하기.PNG");
                 if (i == 0)
                 {
                     winCount++;
@@ -370,6 +368,7 @@ namespace WindowsFormsApplication3
                     p2 = searchImg(screen_img, check_rare_5star);
                     if (!p2.IsEmpty && starFlag_check.Checked == true)
                     {
+                        ;
                         Bitmap check_rare_5star2 = new Bitmap(@"img\check_rare_5star2.PNG");
                         p2 = searchImg(screen_img, check_rare_5star2);
                         if (!p2.IsEmpty)
@@ -397,19 +396,6 @@ namespace WindowsFormsApplication3
                             }
                             sell_runes.Dispose();
                             sell_runes_yes.Dispose();
-                        }
-                        else
-                        {
-                            Bitmap get_runes = new Bitmap(@"img\획득.PNG");
-                            screen_img = PrintWindow2();
-                            p2 = searchImg(screen_img, get_runes);
-                            if (!p2.IsEmpty)
-                            {
-                                pointclick(p2.X, p2.Y, get_runes.Width, get_runes.Height, "룬획득");
-                                Task.Delay(1000).Wait();
-                            }
-                            get_runes.Dispose();
-                            screen_img.Dispose();
                         }
                     }
                     else
@@ -443,22 +429,23 @@ namespace WindowsFormsApplication3
                 {
                     textBox1.Text =  Environment.NewLine + "전복";
                     textBox1.Refresh();
-                    loseCount++;
-                    loseText.Text = loseCount + "번 전복";
-                    loseText.Refresh();
                     Bitmap loseImage = new Bitmap(@"img\defeated.PNG");
                     ;
                     screen_img = PrintWindow2();
                     p2 = searchImg(screen_img, loseImage);
                     if (!p2.IsEmpty)
                     {
-                        pointclick(132, 314, 227, 45, "전복 다시하기");
+                        pointclick(p2.X, p2.Y, loseImage.Width, loseImage.Height, "전복 다시하기");
+                        Task.Delay(400).Wait();
+                        p2 = searchImg(screen_img, replayImage);
+                        pointclick(p2.X, p2.Y, replayImage.Width, replayImage.Height, "다시하기"); ;
+                    }else
+                    {
+                        pointclick(p2.X, p2.Y, replayImage.Width, replayImage.Height, "다시하기");
                     }
                     loseImage.Dispose();
                     screen_img.Dispose();
-                    pointclick(132, 314, 227, 45, "다시하기");
-                }
-                else
+                }else
                 {
                     textBox1.Text =  Environment.NewLine + "승리, 패배 이미지 찾지못함";
                     textBox1.Refresh();
@@ -474,12 +461,19 @@ namespace WindowsFormsApplication3
                 if (!p2.IsEmpty)
                 {
                     buyFlag();
+                    screen_img = PrintWindow2();
                     pointclick(132, 314, 227, 45, "다시하기");
+
                 }
                 
                 thunderbuy.Dispose();
                 screen_img.Dispose();
 
+                screen_img = PrintWindow2();
+                p2 = searchImg(screen_img, replayImage);
+                if (!p2.IsEmpty) {
+                    pointclick(132, 314, 227, 45, "다시하기");
+                }
                 screen_img = PrintWindow2();
                 p2 = searchImg(screen_img, start_img);
                 Task.Delay(600).Wait();
@@ -517,239 +511,6 @@ namespace WindowsFormsApplication3
             
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            nhwnd = (IntPtr)FindWindow(null, "녹스 플레이어"); // 윈도우 창 제목
-
-            try
-            {
-                if (!nhwnd.Equals(IntPtr.Zero))
-                {
-
-                    // 타이머 변수
-                    timer = new System.Windows.Forms.Timer();
-                    MoveWindow(nhwnd, 0, 0, 800, 600, true);
-                    timer2_Tick(sender, e);
-                    // 윈폼 타이머 사용
-                    timer.Interval = 1000 * 60;//1000 * 30 + r.Next(0, 10); // 1분 + @
-                    timer.Tick += new EventHandler(timer2_Tick);
-                    timer.Start();
-                }
-                else
-                {
-                    MessageBox.Show("녹스 못찾겠어요");
-                }
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show("정상적으로 녹스플레이어를 찾지 못했습니다. " + er.Message.ToString());
-            }
-            finally
-            {
-
-            }
-        }
-
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            //Bitmap sell = new Bitmap(@"img\판매.PNG");
-            //Bitmap star5 = new Bitmap(@"img\5성희귀.PNG");
-            textBox2.Text = "";
-            textBox2.Refresh();
-
-            textBox1.Text = "";
-            textBox1.Refresh();
-
-            Random r = new Random();
-            Bitmap screen_img = PrintWindow2();
-            Bitmap start_img = new Bitmap(@"img\전투시작.PNG");
-            
-            try
-            {
-                int i = 0;
-                
-
-                Bitmap[] winOrLose =
-                {
-                    new Bitmap(@"img\victory.PNG"),
-                    new Bitmap(@"img\전복 아니오.PNG")
-                };
-                try
-                {
-                    screen_img = PrintWindow2();
-                    for (; i < 2; i++)
-                    {
-                        
-                        p2 = searchImg(screen_img, winOrLose[i]);
-                        if (!p2.IsEmpty)
-                        {
-                            pointclick(p2.X, p2.Y, winOrLose[i].Width, winOrLose[i].Height, "승리 패배 검사 " + i);
-                            break;
-                        }
-                    }
-                }
-                catch { }
-                finally
-                {
-                    winOrLose[0].Dispose();
-                    winOrLose[1].Dispose();
-                    winOrLose = null;
-                }
-                screen_img.Dispose();
-                if (i == 0)
-                {
-                    winCount++;
-                    textBox3.Text = winCount + "회 승리";
-                    textBox3.Refresh();
-
-                    textBox1.Text = "승리";
-                    textBox1.Refresh();
-                    screen_img = PrintWindow2();
-                    pointclick(p2.X, p2.Y, 160, 73, "아무데나 클릭");
-
-                    screen_img = PrintWindow2();
-                    Bitmap check_rare_5star = new Bitmap(@"img\check_rare_5star.PNG");
-                    p2 = searchImg(screen_img, check_rare_5star);
-                    if (!p2.IsEmpty && starFlag_check.Checked == true)
-                    {
-                        Bitmap check_rare_5star2 = new Bitmap(@"img\check_rare_5star2.PNG");
-                        p2 = searchImg(screen_img, check_rare_5star2);
-                        if (!p2.IsEmpty)
-                        {
-
-                            Bitmap sell_runes = new Bitmap(@"img\sell_runes.PNG");
-                            Bitmap sell_runes_yes = new Bitmap(@"img\sell_runes_yes.PNG");
-
-                            p2 = searchImg(screen_img, sell_runes);
-                            if (!p2.IsEmpty)
-                            {
-                                pointclick(p2.X, p2.Y, sell_runes.Width, sell_runes.Height, "5성룬 판매");
-                                screen_img = PrintWindow2();
-                                p2 = searchImg(screen_img, sell_runes_yes);
-                                if (!p2.IsEmpty)
-                                {
-                                    Task.Delay(1000).Wait();
-                                    sellCount++;
-                                    textBox5.Text = sellCount + "번 5성룬 희귀 판매";
-                                    textBox5.Refresh();
-                                    pointclick(p2.X, p2.Y, sell_runes_yes.Width, sell_runes_yes.Height, "5성룬 판매 확인");
-
-                                }
-
-                            }
-                            sell_runes.Dispose();
-                            sell_runes_yes.Dispose();
-                        }
-                        else
-                        {
-                            Bitmap get_runes = new Bitmap(@"img\획득.PNG");
-                            screen_img = PrintWindow2();
-                            p2 = searchImg(screen_img, get_runes);
-                            if (!p2.IsEmpty)
-                            {
-                                pointclick(p2.X, p2.Y, get_runes.Width, get_runes.Height, "룬획득");
-                                Task.Delay(1000).Wait();
-                            }
-                            get_runes.Dispose();
-                            screen_img.Dispose();
-                        }
-                    }
-                    else
-                    {
-                        Bitmap get_runes = new Bitmap(@"img\획득.PNG");
-                        screen_img = PrintWindow2();
-                        p2 = searchImg(screen_img, get_runes);
-                        if (!p2.IsEmpty)
-                        {
-                            pointclick(p2.X, p2.Y, get_runes.Width, get_runes.Height, "룬획득");
-                            Task.Delay(1000).Wait();
-                        }
-                        get_runes.Dispose();
-                        screen_img.Dispose();
-                    }
-                    Task.Delay(600).Wait();
-                    screen_img = PrintWindow2();
-                    Bitmap getItem_image = new Bitmap(@"img\아이템_확인.PNG");
-                    p2 = searchImg(screen_img, getItem_image);
-                    if (!p2.IsEmpty)
-                    {
-                        pointclick(p2.X, p2.Y, getItem_image.Width, getItem_image.Height, "아이템 확인");
-                    }
-                    Task.Delay(1000).Wait();
-                    screen_img.Dispose();
-                    getItem_image.Dispose();
-                    check_rare_5star.Dispose();
-                    pointclick(132, 314, 227, 45, "다시하기");
-                }
-                else if(i ==1)
-                {
-                    textBox1.Text =  Environment.NewLine + "전복";
-                    textBox1.Refresh();
-                    loseCount++;
-                    loseText.Text = loseCount + "번 전복";
-                    loseText.Refresh();
-                    Bitmap loseImage = new Bitmap(@"img\defeated.PNG");
-                    ;
-                    screen_img = PrintWindow2();
-                    p2 = searchImg(screen_img, loseImage);
-                    if (!p2.IsEmpty)
-                    {
-                        pointclick(132, 314, 227, 45, "전복 다시하기");
-                    }
-                    loseImage.Dispose();
-                    screen_img.Dispose();
-                    pointclick(132, 314, 227, 45, "다시하기");
-                }
-                else
-                {
-                    textBox1.Text =  Environment.NewLine + "승리, 패배 이미지 찾지못함";
-                    textBox1.Refresh();
-                }
-
-                Task.Delay(1000).Wait();
-                Bitmap thunderbuy = new Bitmap(@"img\번충안내2.PNG");
-                
-                screen_img = PrintWindow2();
-
-                p2 = searchImg(screen_img, thunderbuy);
-                screen_img.Dispose();
-                if (!p2.IsEmpty)
-                {
-                    buyFlag();
-                    pointclick(132, 314, 227, 45, "다시하기");
-                }
-                
-                thunderbuy.Dispose();
-                screen_img.Dispose();
-
-                //졸작 
-                //만렙인지 검사 -> 만렙인 모슨터 클릭 -> 보관함클릭 -> 스크롤 내린후 검사 -> 좌표 있는 곳 캡쳐후 같은지검사(마지막 몹) -> 선택 후 전투시작
-
-
-
-                screen_img = PrintWindow2();
-                p2 = searchImg(screen_img, start_img);
-                Task.Delay(600).Wait();
-                if (!p2.IsEmpty)
-                {
-                    pointclick(p2.X, p2.Y, start_img.Width, start_img.Height, "전투시작");
-                }
-                Task.Delay(2000).Wait();
-                textBox1.Text =  Environment.NewLine + "한바퀴 끝 1분 후 다음 반복 시작";
-                textBox1.Refresh();
-                start_img.Dispose();
-                
-            }
-            catch(Exception e2)
-            {
-                MessageBox.Show(e2.Message.ToString());
-            }
-            finally
-            {
-
-                screen_img.Dispose();
-            }
-        }
 
     }
 }

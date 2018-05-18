@@ -41,8 +41,6 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.loseText = new System.Windows.Forms.TextBox();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,7 +76,6 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // starFlag_check
             // 
@@ -142,24 +139,11 @@
             this.textBox6.Size = new System.Drawing.Size(342, 24);
             this.textBox6.TabIndex = 10;
             // 
-            // loseText
-            // 
-            this.loseText.Location = new System.Drawing.Point(219, 278);
-            this.loseText.Multiline = true;
-            this.loseText.Name = "loseText";
-            this.loseText.Size = new System.Drawing.Size(114, 21);
-            this.loseText.TabIndex = 11;
-            // 
-            // timer2
-            // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 373);
-            this.Controls.Add(this.loseText);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox4);
@@ -193,8 +177,6 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox loseText;
-        private System.Windows.Forms.Timer timer2;
     }
 }
 
